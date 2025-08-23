@@ -36,7 +36,6 @@ LOCAL_APPS = [
     'apps.accounts',
     'apps.jobs',
     'apps.checkins',
-    'apps.payments',
     'apps.ai_proxy',
     'apps.common',
 ]
@@ -143,7 +142,4 @@ CORS_ALLOW_CREDENTIALS = True
 AI_SERVICE_URL = config('AI_SERVICE_URL', default='http://localhost:8010')
 AI_SHARED_TOKEN = config('AI_SHARED_TOKEN', default='devtoken')
 
-# Stripe Configuration
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
-STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+

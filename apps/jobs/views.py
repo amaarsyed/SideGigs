@@ -90,9 +90,6 @@ class JobViewSet(viewsets.ModelViewSet):
             job.status = Job.ASSIGNED
             job.save()
             
-            # Generate QR hash for check-ins (will be implemented in checkins app)
-            # This is a placeholder - your teammate will implement the QR generation
-            
         return Response(JobSerializer(job).data)
     
     @action(detail=True, methods=['post'])
@@ -113,8 +110,5 @@ class JobViewSet(viewsets.ModelViewSet):
             job.after_photos = serializer.validated_data.get('after_photos', [])
             job.status = Job.DONE
             job.save()
-            
-            # Release escrow (will be implemented in payments app)
-            # This is a placeholder - your teammate will implement the escrow release
             
         return Response(JobSerializer(job).data)
