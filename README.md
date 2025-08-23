@@ -104,7 +104,7 @@ job-platform-backend/
 * `apps/ai_proxy/` - HTTP client functions for AI service calls
 * `apps/common/` - Permissions (IsVerified, IsMinorWithConsent)
 
-### Teammate Responsibility (Backend + User Management)
+### Krish's Responsibility (Backend + User Management)
 
 * `apps/accounts/` - User authentication, verification, guardian consent
 * `core/` - Settings, URLs, DRF setup, admin
