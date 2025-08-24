@@ -1,7 +1,9 @@
-Django==5.2.5
-djangorestframework==3.16.1
-djangorestframework-simplejwt==5.5.1
-django-cors-headers==4.7.0
-python-decouple==3.8
-requests==2.32.5
-supabase==2.3.4
+Django>=5.0
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.3
+django-cors-headers>=4.4
+supabase>=2.6
+python-dotenv>=1.0
+pdfminer.six>=20240706
+python-docx>=1.1.2
+Pillow>=10.3
