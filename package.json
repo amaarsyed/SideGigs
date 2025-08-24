@@ -1,0 +1,13 @@
+{
+    "name": "job-platform-monorepo",
+    "private": true,
+    "version": "0.1.0",
+    "devDependencies": {
+        "concurrently": "^9.2.0"
+    },
+    "scripts": {
+        "dev:api": "cd . && .\\.venv\\Scripts\\python.exe manage.py runserver 0.0.0.0:8000",
+        "dev:web": "cd frontend && npm run dev",
+        "dev:all": "concurrently -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\""
+    }
+}
