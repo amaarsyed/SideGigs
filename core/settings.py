@@ -41,6 +41,18 @@ LOCAL_APPS = [
     'apps.common',
 ]
 
+THIRD_PARTY_APPS = [
+    # ...existing...
+    'rest_framework',
+]
+
+LOCAL_APPS = [
+    # ...existing...
+    'apps.accounts',
+    'apps.jobs',
+    'apps.checkins',
+    'apps.ai_proxy',
+]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [

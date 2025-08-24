@@ -33,6 +33,7 @@ urlpatterns = [
     # path('api/', include('apps.jobs.urls')),
     # path('api/', include('apps.checkins.urls')),
     path('api/accounts/', include('apps.accounts.urls')),
+    path("api/ai/", include("apps.ai_proxy.urls")),
 ]
 
 #  media files in development
