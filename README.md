@@ -79,12 +79,22 @@ job-platform-backend/
 - `GET /api/accounts/verification/me/` - Get verification status
 - `POST /api/accounts/verification/approve/{user_id}/` - Approve verification (admin only)
 
+### File Uploads (Supabase)
+- `POST /api/upload/resume/` - Upload resume file
+- `POST /api/upload/id/` - Upload ID verification images
+
 ## 🧪 Testing
 
 ### PowerShell Test Script
 Run the included test script to verify all endpoints:
 ```powershell
 .\test_api.ps1
+```
+
+### Supabase Upload Testing
+Test file uploads to Supabase:
+```powershell
+.\test_supabase_uploads.ps1
 ```
 * `apps/common/` - Permissions (IsVerified, IsMinorWithConsent)
 
@@ -351,12 +361,34 @@ python manage.py runserver 8001
 1. **Test all endpoints** using the PowerShell script
 2. **Create users** via admin panel or API
 3. **Test verification workflow**
-4. **Uncomment jobs/checkins apps** when ready
-5. **Implement frontend integration**
+4. **Set up Supabase** for file uploads
+5. **Test file uploads** using the Supabase test script
+6. **Implement frontend integration**
+
+## 🔧 Supabase Setup
+
+1. **Create Supabase project** at https://supabase.com
+2. **Get your project URL** from Settings → API
+3. **Get your service role key** from Settings → API → service_role
+4. **Create storage bucket** named "uploads" (private)
+5. **Update .env file** with your Supabase credentials
+6. **Test uploads** with `.\test_supabase_uploads.ps1`
 
 ## 📝 Environment Variables
 
-Create `.env` file (optional):
+Create `.env` file:
+```bash
+cp env.example .env
+```
+
+Required Supabase settings:
+```
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE=your-service-role-key-here
+SUPABASE_BUCKET=uploads
+```
+
+Optional settings:
 ```
 DEBUG=True
 SECRET_KEY=your-secret-key-here

@@ -23,6 +23,10 @@ def api_root(request):
                 'verification_me': '/api/accounts/verification/me/',
                 'verification_approve': '/api/accounts/verification/approve/{user_id}/',
                 'token_refresh': '/api/accounts/token/refresh/',
+            },
+            'jobs': {
+                'upload_resume': '/api/upload/resume/',
+                'upload_id': '/api/upload/id/',
             }
         }
     })
@@ -30,7 +34,7 @@ def api_root(request):
 urlpatterns = [
     path('', api_root, name='api_root'),
     path('admin/', admin.site.urls),
-    # path('api/', include('apps.jobs.urls')),
+    path('api/', include('apps.jobs.urls')),
     # path('api/', include('apps.checkins.urls')),
     path('api/accounts/', include('apps.accounts.urls')),
     path("api/ai/", include("apps.ai_proxy.urls")),
