@@ -23,7 +23,12 @@ def upload_bytes(data: bytes, path: str, content_type: str | None = None, *, buc
     bucket_name = bucket or os.getenv("SUPABASE_BUCKET", "uploads")
     if content_type is None:
         content_type = guess_mime(path) or "application/octet-stream"
-    client.storage.from_(bucket_name).upload(path, data, {'content-type': content_type, 'cache-control': 'max-age=3600'})
+    # Supabase expects camelCase keys such as `contentType` and `cacheControl`
+    options = {
+        "contentType": content_type,
+        "cacheControl": "3600",
+    }
+    client.storage.from_(bucket_name).upload(path, data, options)
 
 
 def create_signed_url(path: str, seconds: int = 7200, *, bucket: str | None = None) -> str:
