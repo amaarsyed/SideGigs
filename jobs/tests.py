@@ -32,6 +32,25 @@ class StorageTests(APITestCase):
 
     @patch("core.storage.create_signed_url", return_value="https://example.com/file")
     @patch("core.storage.upload_bytes")
+    def test_upload_resume_invalid_extension(self, m_upload, m_signed):
+        self.auth(self.user)
+        file = SimpleUploadedFile("resume.txt", b"TXT", content_type="text/plain")
+        resp = self.client.post("/api/storage/resume", {"file": file})
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(Resume.objects.count(), 0)
+
+    @patch("jobs.views.parse_resume", side_effect=ValueError("bad file"))
+    @patch("core.storage.create_signed_url", return_value="https://example.com/file")
+    @patch("core.storage.upload_bytes")
+    def test_upload_resume_parse_error(self, m_upload, m_signed, m_parse):
+        self.auth(self.user)
+        file = SimpleUploadedFile("resume.pdf", b"PDF", content_type="application/pdf")
+        resp = self.client.post("/api/storage/resume", {"file": file})
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(Resume.objects.count(), 0)
+
+    @patch("core.storage.create_signed_url", return_value="https://example.com/file")
+    @patch("core.storage.upload_bytes")
     def test_upload_id(self, m_upload, m_signed):
         self.auth(self.user)
         file = SimpleUploadedFile("id.jpg", b"JPEG", content_type="image/jpeg")
