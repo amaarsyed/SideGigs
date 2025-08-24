@@ -13,10 +13,17 @@ def upload_resume(request):
     file = request.FILES.get("file")
     if not file:
         return Response({"detail": "file required"}, status=400)
+    if not file.name.lower().endswith((".pdf", ".docx")):
+        return Response({"detail": "file must be a .pdf or .docx"}, status=400)
     data = file.read()
     file_copy = SimpleUploadedFile(file.name, data, file.content_type)
     path, url = store_django_file(file_copy, "resumes", request.user.id)
-    parsed = parse_resume(data, file.name)
+    try:
+        parsed = parse_resume(data, file.name)
+    except ValueError as e:
+        return Response({"detail": str(e)}, status=400)
+    except Exception:
+        return Response({"detail": "failed to parse resume"}, status=400)
     resume = Resume.objects.create(user=request.user, storage_path=path, signed_url=url, parsed_json=parsed)
     return Response({"id": resume.id, "signed_url": url, "parsed": parsed}, status=201)
 
