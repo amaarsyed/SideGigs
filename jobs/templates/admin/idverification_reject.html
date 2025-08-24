@@ -1,0 +1,15 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+<h1>Reject selected ID verifications</h1>
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% for obj in queryset %}
+    <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk }}" />
+  {% endfor %}
+  <input type="hidden" name="action" value="reject" />
+  <input type="hidden" name="apply" value="True" />
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock %}
