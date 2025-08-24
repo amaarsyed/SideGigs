@@ -26,7 +26,12 @@ def upload_id(request):
     id_image = request.FILES.get("id_image")
     if not id_image:
         return Response({"detail": "id_image required"}, status=400)
+    allowed_types = {"image/jpeg", "image/png"}
+    if id_image.content_type not in allowed_types:
+        return Response({"detail": "unsupported id_image type"}, status=400)
     selfie = request.FILES.get("selfie")
+    if selfie and selfie.content_type not in allowed_types:
+        return Response({"detail": "unsupported selfie type"}, status=400)
     id_path, _ = store_django_file(id_image, "id", request.user.id)
     selfie_path = ""
     if selfie:

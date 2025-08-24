@@ -40,6 +40,25 @@ class StorageTests(APITestCase):
         self.assertEqual(resp.data["status"], "PENDING")
         self.assertEqual(IDVerification.objects.count(), 1)
 
+    @patch("core.storage.create_signed_url", return_value="https://example.com/file")
+    @patch("core.storage.upload_bytes")
+    def test_upload_id_rejects_invalid_mime(self, m_upload, m_signed):
+        self.auth(self.user)
+        file = SimpleUploadedFile("id.txt", b"TEXT", content_type="text/plain")
+        resp = self.client.post("/api/storage/id", {"id_image": file})
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(IDVerification.objects.count(), 0)
+
+    @patch("core.storage.create_signed_url", return_value="https://example.com/file")
+    @patch("core.storage.upload_bytes")
+    def test_upload_id_rejects_invalid_selfie(self, m_upload, m_signed):
+        self.auth(self.user)
+        id_file = SimpleUploadedFile("id.jpg", b"JPEG", content_type="image/jpeg")
+        selfie = SimpleUploadedFile("selfie.txt", b"TXT", content_type="text/plain")
+        resp = self.client.post("/api/storage/id", {"id_image": id_file, "selfie": selfie})
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(IDVerification.objects.count(), 0)
+
     @patch("core.storage.create_signed_url", return_value="https://example.com/path")
     def test_signed_url_permissions(self, m_signed):
         self.auth(self.user)
